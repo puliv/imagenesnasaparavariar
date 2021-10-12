@@ -2,23 +2,36 @@
   <div id="app">
     <div class="navbar">
       <div class="navbar__title">
-        <h3>¿Qué imagen de la NASA eres según tu fecha de nacimiento?</h3>
+        <h3>¿Qué imagen de la NASA eres?</h3>
       </div>
       <div class="select__date">
-        <button>Select Date</button>
+        <button class="btn al-azar" @click="random">Al azar</button>
+        <button class="btn select-date" @click="selectDate">Seleccionar fecha</button>
       </div>
     </div>
-    <!-- <v-calendar :attributes="attributes" @dayclick="onDayClick" :max-date="today" /> -->
+    <v-calendar
+      v-if="show_calendar"
+      :attributes="attributes"
+      @dayclick="onDayClick"
+      :max-date="today"
+      :min-date="min_date"
+    />
     <div class="home">
       <div class="home__title">
         <h1>
           {{ home_title !== null ? home_title : "" }}
+          <br />
+          {{ dateSelected !== null ? dateSelected : "" }}
         </h1>
       </div>
-      <div class="home__container" :class="video_active && 'active'">
+      <div class="home__container">
         <div class="home__left">
-          <img alt="" v-if="home_video == null" :src="home_img" />
-          <LazyYoutube v-if="home_video !== null" :src="home_video" ref="lazyVideo" />
+          <div class="img">
+            <img alt="" v-if="home_video == null" :src="home_img" />
+          </div>
+          <div class="vid">
+            <LazyYoutube v-if="home_video !== null" :src="home_video" ref="lazyVideo" />
+          </div>
         </div>
         <div class="home__right">
           <div class="text">
@@ -46,9 +59,10 @@ export default {
       home_video: "",
       home_title: null,
       dateSelected: null,
+      min_date: "1995-06-16",
       days: [],
       today: new Date(),
-      video_active: false
+      show_calendar: false
     };
   },
   computed: {
@@ -69,6 +83,7 @@ export default {
       this.axios.get(api).then((response) => {
         var data = response.data;
         console.log("data", data);
+        this.dateSelected = this.formatDate(this.today).split("-").reverse().join("/");
 
         if (data.media_type == "video") {
           this.home_title = data.title;
@@ -85,20 +100,24 @@ export default {
     },
     async getImageByDay(day) {
       var api_key = "rsLmxghvWRUQWRVjQhKN6Jg750ipPyTEnIjQ0Xrj";
-      var date = day.id.split("-");
+      var date = day.split("-");
 
       var api = `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${
         date[0] + "-" + date[1] + "-" + date[2]
       }`;
 
+      console.log(api);
+
       this.axios.get(api).then((response) => {
         // console.log(response.data);
         var _data = response.data;
+        this.show_calendar = false;
         if (_data.media_type == "image") {
           this.home_img = _data.url;
           this.home_title = _data.title;
           this.home_video = null;
           this.home_text = _data.explanation;
+          this.dateSelected = day.split("-").reverse().join("/");
         }
       });
     },
@@ -113,17 +132,36 @@ export default {
           date: day.date
         });
       }
-      this.getImageByDay(day);
+      this.getImageByDay(day.id);
     },
-    handleClick(event) {
-      console.log(event);
-      this.$refs["lazyVideo"][event]();
-      this.video_active = true;
-      console.log(this.video_active);
+    selectDate() {
+      this.show_calendar = !this.show_calendar;
+    },
+    random() {
+      var start = this.min_date;
+      var end = this.today;
+      var date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+      var result = this.formatDate(date);
+
+      // console.log(result);
+      this.getImageByDay(result);
+      return result;
+    },
+    formatDate(date) {
+      var d = new Date(date),
+        month = "" + (d.getMonth() + 1),
+        day = "" + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = "0" + month;
+      if (day.length < 2) day = "0" + day;
+      return [year, month, day].join("-");
     }
   },
   mounted() {
     this.getData();
+    this.min_date = new Date(this.min_date);
+    console.log(this.min_date);
   }
 };
 </script>
