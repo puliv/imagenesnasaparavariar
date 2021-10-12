@@ -1,37 +1,54 @@
 <template>
   <div id="app">
-    <div class="home">
-      <div class="selected-date">
-        {{ home_title !== null ? home_title : "" }}
+    <div class="navbar">
+      <div class="navbar__title">
+        <h3>¿Qué imagen de la NASA eres según tu fecha de nacimiento?</h3>
       </div>
-      <v-calendar :attributes="attributes" @dayclick="onDayClick" :max-date="today" />
-      <img alt="" v-if="home_video == null" :src="home_img" />
-      <!-- <video :src="home_video" v-if="home_video !== null" /> -->
-      <div class="text">
-        {{ home_text }}
+      <div class="select__date">
+        <button>Select Date</button>
       </div>
     </div>
-    <!-- <HelloWorld msg="Welcome to Your Vue.js App" /> -->
+    <!-- <v-calendar :attributes="attributes" @dayclick="onDayClick" :max-date="today" /> -->
+    <div class="home">
+      <div class="home__title">
+        <h1>
+          {{ home_title !== null ? home_title : "" }}
+        </h1>
+      </div>
+      <div class="home__container" :class="video_active && 'active'">
+        <div class="home__left">
+          <img alt="" v-if="home_video == null" :src="home_img" />
+          <LazyYoutube v-if="home_video !== null" :src="home_video" ref="lazyVideo" />
+        </div>
+        <div class="home__right">
+          <div class="text">
+            {{ home_text }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld.vue";
+import { LazyYoutube } from "vue-lazytube";
+import "../src/assets/scss/style.scss";
 
 export default {
   name: "App",
   components: {
-    // HelloWorld
+    LazyYoutube
   },
   data() {
     return {
       home_img: null,
       home_text: null,
-      home_video: null,
+      home_video: "",
       home_title: null,
       dateSelected: null,
       days: [],
-      today: new Date()
+      today: new Date(),
+      video_active: false
     };
   },
   computed: {
@@ -50,14 +67,12 @@ export default {
       var api =
         "https://api.nasa.gov/planetary/apod?api_key=rsLmxghvWRUQWRVjQhKN6Jg750ipPyTEnIjQ0Xrj";
       this.axios.get(api).then((response) => {
-        // console.log(response.data);
         var data = response.data;
+        console.log("data", data);
 
         if (data.media_type == "video") {
-          var vid = data.url.split(":");
-          this.home_video = "http:" + vid[1];
-          // console.log(this.home_video);
           this.home_title = data.title;
+          this.home_video = data.url;
         }
         if (data.media_type == "image") {
           this.home_img = data.url;
@@ -68,15 +83,13 @@ export default {
         this.home_text = data.explanation;
       });
     },
-    getImageByDay(day) {
+    async getImageByDay(day) {
       var api_key = "rsLmxghvWRUQWRVjQhKN6Jg750ipPyTEnIjQ0Xrj";
       var date = day.id.split("-");
-      console.log(date);
 
       var api = `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${
         date[0] + "-" + date[1] + "-" + date[2]
       }`;
-      console.log("api", api);
 
       this.axios.get(api).then((response) => {
         // console.log(response.data);
@@ -91,6 +104,7 @@ export default {
     },
     onDayClick(day) {
       const idx = this.days.findIndex((d) => d.id === day.id);
+      this.days = [];
       if (idx >= 0) {
         this.days.splice(idx, 1);
       } else {
@@ -100,6 +114,12 @@ export default {
         });
       }
       this.getImageByDay(day);
+    },
+    handleClick(event) {
+      console.log(event);
+      this.$refs["lazyVideo"][event]();
+      this.video_active = true;
+      console.log(this.video_active);
     }
   },
   mounted() {
@@ -107,23 +127,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-
-  .home {
-    text-align: center;
-
-    img {
-      object-fit: contain;
-      width: 55%;
-    }
-  }
-}
-</style>
