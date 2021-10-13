@@ -2,6 +2,7 @@
   <div id="app">
     <div class="navbar">
       <div class="navbar__title">
+        <img src="./assets/img/nasa.png" alt="" />
         <h3>Imágenes de la NASA para variar</h3>
       </div>
       <div class="select__date">
