@@ -2,7 +2,7 @@
   <div id="app">
     <div class="navbar">
       <div class="navbar__title">
-        <h3>¿Qué imagen de la NASA eres?</h3>
+        <h3>Imágenes de la NASA para variar</h3>
       </div>
       <div class="select__date">
         <button class="btn al-azar" @click="random">Al azar</button>
@@ -26,8 +26,9 @@
       </div>
       <div class="home__container">
         <div class="home__left">
+          <Spinner v-if="show_spinner" />
           <div class="img">
-            <img alt="" v-if="home_video == null" :src="home_img" />
+            <img alt="" v-if="home_video == null && home_img !== null" :src="home_img" />
           </div>
           <div class="vid">
             <LazyYoutube v-if="home_video !== null" :src="home_video" ref="lazyVideo" />
@@ -46,11 +47,13 @@
 <script>
 import { LazyYoutube } from "vue-lazytube";
 import "../src/assets/scss/style.scss";
+import Spinner from "./components/Spinner.vue";
 
 export default {
   name: "App",
   components: {
-    LazyYoutube
+    LazyYoutube,
+    Spinner
   },
   data() {
     return {
@@ -62,7 +65,8 @@ export default {
       min_date: "1995-06-16",
       days: [],
       today: new Date(),
-      show_calendar: false
+      show_calendar: false,
+      show_spinner: false
     };
   },
   computed: {
@@ -112,6 +116,7 @@ export default {
         // console.log(response.data);
         var _data = response.data;
         this.show_calendar = false;
+        this.show_spinner = false;
         if (_data.media_type == "image") {
           this.home_img = _data.url;
           this.home_title = _data.title;
@@ -123,6 +128,9 @@ export default {
     },
     onDayClick(day) {
       const idx = this.days.findIndex((d) => d.id === day.id);
+      this.show_spinner = true;
+      this.home_img = null;
+      this.home_video = null;
       this.days = [];
       if (idx >= 0) {
         this.days.splice(idx, 1);
@@ -142,7 +150,9 @@ export default {
       var end = this.today;
       var date = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
       var result = this.formatDate(date);
-
+      this.show_spinner = true;
+      this.home_img = null;
+      this.home_video = null;
       // console.log(result);
       this.getImageByDay(result);
       return result;
