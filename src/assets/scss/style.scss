@@ -20,8 +20,10 @@ body {
       margin-left: 20px;
       font-family: "Roboto Mono", monospace;
       font-weight: 500;
-      @include medium {
-        font-size: 1em;
+      h3 {
+        @include medium {
+          font-size: 1em;
+        }
       }
 
       display: flex;
