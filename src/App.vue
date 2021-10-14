@@ -145,6 +145,7 @@ export default {
     },
     selectDate() {
       this.show_calendar = !this.show_calendar;
+      this.$ga.event("Botón", "click", "Seleccionar fecha");
     },
     random() {
       var start = this.min_date;
@@ -156,6 +157,7 @@ export default {
       this.home_video = null;
       // console.log(result);
       this.getImageByDay(result);
+      this.$ga.event("Botón", "click", "Al Azar");
       return result;
     },
     formatDate(date) {

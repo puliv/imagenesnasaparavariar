@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "v-calendar": "^2.3.4",
     "vue": "^2.6.11",
+    "vue-analytics": "^5.22.1",
     "vue-axios": "^3.3.7",
     "vue-lazytube": "^1.0.2"
   },
