@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;500;700&display=swap");
+@import "_mixins.scss";
 
 body {
   margin: 0;
@@ -26,29 +27,44 @@ body {
       img {
         width: 70px;
         margin-right: 10px;
+        cursor: pointer;
       }
     }
     .select__date {
-      margin-right: 20px;
-      button {
-        padding: 10px;
-        border: 2px solid #000000;
-        background-color: transparent;
-        font-family: "Roboto Mono", monospace;
-        font-weight: 500;
-        border-radius: 10px;
-        cursor: pointer;
-      }
-      .al-azar {
-        margin-right: 10px;
+      @include extra-medium {
+        visibility: hidden;
+        display: none;
       }
     }
   }
-  .vc-container {
-    position: absolute;
-    z-index: 999;
-    right: 20px;
+
+  .select__responsive {
+    visibility: hidden;
+    display: none;
+    @include extra-medium {
+      display: block;
+      visibility: visible;
+      text-align: center;
+      margin-top: 20px;
+    }
   }
+
+  .calendar {
+    @include extra-medium {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .vc-container {
+      position: absolute;
+      z-index: 999;
+      right: 20px;
+
+      @include extra-medium {
+        position: initial;
+      }
+    }
+  }
+
   .home {
     padding: 20px;
     text-align: center;
@@ -79,6 +95,22 @@ body {
         margin-top: 20px;
         padding: 0 20px;
       }
+    }
+  }
+
+  .select__date {
+    margin-right: 20px;
+    button {
+      padding: 10px;
+      border: 2px solid #000000;
+      background-color: transparent;
+      font-family: "Roboto Mono", monospace;
+      font-weight: 500;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .al-azar {
+      margin-right: 10px;
     }
   }
 }
