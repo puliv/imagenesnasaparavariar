@@ -20,6 +20,9 @@ body {
       margin-left: 20px;
       font-family: "Roboto Mono", monospace;
       font-weight: 500;
+      @include medium {
+        font-size: 1em;
+      }
 
       display: flex;
       align-items: center;
@@ -31,7 +34,7 @@ body {
       }
     }
     .select__date {
-      @include extra-medium {
+      @include medium {
         visibility: hidden;
         display: none;
       }
@@ -41,16 +44,19 @@ body {
   .select__responsive {
     visibility: hidden;
     display: none;
-    @include extra-medium {
+    @include medium {
       display: block;
       visibility: visible;
       text-align: center;
       margin-top: 20px;
+      .select__date {
+        margin-right: 0;
+      }
     }
   }
 
   .calendar {
-    @include extra-medium {
+    @include medium {
       text-align: center;
       margin-top: 20px;
     }
@@ -59,7 +65,7 @@ body {
       z-index: 999;
       right: 20px;
 
-      @include extra-medium {
+      @include medium {
         position: initial;
       }
     }
@@ -68,6 +74,9 @@ body {
   .home {
     padding: 20px;
     text-align: center;
+    @include medium {
+      padding-top: 0;
+    }
     &__title {
       font-family: "Roboto Mono", monospace;
       font-weight: bold;
