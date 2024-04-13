@@ -23,13 +23,8 @@
     </div>
 
     <div class="calendar">
-      <v-calendar
-        v-if="show_calendar"
-        :attributes="attributes"
-        @dayclick="onDayClick"
-        :max-date="today"
-        :min-date="min_date"
-      />
+      <v-calendar v-if="show_calendar" :attributes="attributes" @dayclick="onDayClick" :max-date="today"
+        :min-date="min_date" />
     </div>
 
     <div class="home">
@@ -55,6 +50,9 @@
             {{ home_text }}
           </div>
         </div>
+      </div>
+      <div class="home__author">
+        <h5>Hecho con amor por <a href="https://puliv.github.io/">Pulié</a> </h5>
       </div>
     </div>
   </div>
@@ -126,9 +124,8 @@ export default {
       var api_key = "rsLmxghvWRUQWRVjQhKN6Jg750ipPyTEnIjQ0Xrj";
       var date = day.split("-");
 
-      var api = `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${
-        date[0] + "-" + date[1] + "-" + date[2]
-      }`;
+      var api = `https://api.nasa.gov/planetary/apod?api_key=${api_key}&date=${date[0] + "-" + date[1] + "-" + date[2]
+        }`;
 
       // console.log(api);
 

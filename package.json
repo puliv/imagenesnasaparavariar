@@ -11,8 +11,9 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/vue-fontawesome": "^2.0.2",
+    "@vue/runtime-dom": "^3.4.21",
     "axios": "^0.22.0",
-    "core-js": "^3.6.5",
+    "core-js": "^3.36.1",
     "v-calendar": "^2.3.4",
     "vue": "^2.6.11",
     "vue-analytics": "^5.22.1",
@@ -20,7 +21,7 @@
     "vue-lazytube": "^1.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~5.0.8",
     "@vue/eslint-config-prettier": "^6.0.0",

@@ -8,6 +8,7 @@ body {
 
 #app {
   position: relative;
+
   .navbar {
     position: sticky;
     background-color: #d37b88;
@@ -16,10 +17,12 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     &__title {
       margin-left: 20px;
       font-family: "Roboto Mono", monospace;
       font-weight: 500;
+
       h3 {
         @include medium {
           font-size: 1em;
@@ -35,6 +38,7 @@ body {
         cursor: pointer;
       }
     }
+
     .select__date {
       @include medium {
         visibility: hidden;
@@ -46,11 +50,13 @@ body {
   .select__responsive {
     visibility: hidden;
     display: none;
+
     @include medium {
       display: block;
       visibility: visible;
       text-align: center;
       margin-top: 20px;
+
       .select__date {
         margin-right: 0;
       }
@@ -62,6 +68,7 @@ body {
       text-align: center;
       margin-top: 20px;
     }
+
     .vc-container {
       position: absolute;
       z-index: 999;
@@ -76,22 +83,27 @@ body {
   .home {
     padding: 20px;
     text-align: center;
+
     @include medium {
       padding-top: 0;
     }
+
     &__title {
       font-family: "Roboto Mono", monospace;
       font-weight: bold;
     }
+
     &__container {
       .home__left {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 300px;
+
         .ipOhDr {
           max-width: 800px;
         }
+
         .img {
           max-width: 800px;
 
@@ -100,6 +112,7 @@ body {
           }
         }
       }
+
       .home__right {
         font-family: "Roboto Mono", monospace;
         font-weight: 200;
@@ -107,10 +120,20 @@ body {
         padding: 0 20px;
       }
     }
+
+    &__author {
+      font-family: "Roboto Mono", monospace;
+
+      a {
+        color: #d37b88;
+        text-decoration: none;
+      }
+    }
   }
 
   .select__date {
     margin-right: 20px;
+
     button {
       padding: 10px;
       border: 2px solid #000000;
@@ -119,7 +142,9 @@ body {
       font-weight: 500;
       border-radius: 10px;
       cursor: pointer;
+      color: #000000;
     }
+
     .al-azar {
       margin-right: 10px;
     }
